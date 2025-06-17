@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming Top-Up Analytics Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+        }
+        .container {
+            max-width: 1000px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="container mx-auto p-6 bg-white rounded-xl shadow-lg">
+        <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">
+            Gaming Top-Up Analytics Dashboard
+        </h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Failed Payments Card -->
+            <div class="card p-6 flex flex-col items-center justify-center text-center bg-red-50 border border-red-200">
+                <p class="text-5xl font-extrabold text-red-600">{{ failed_payments_count }}</p>
+                <p class="text-lg font-medium text-red-700 mt-2">Failed Payments (Current Month)</p>
+            </div>
+
+            <!-- Placeholder for future metrics or expansion -->
+            <div class="card p-6 flex flex-col items-center justify-center text-center bg-blue-50 border border-blue-200">
+                <p class="text-5xl font-extrabold text-blue-600">N/A</p>
+                <p class="text-lg font-medium text-blue-700 mt-2">Successful Transactions</p>
+            </div>
+
+            <div class="card p-6 flex flex-col items-center justify-center text-center bg-green-50 border border-green-200">
+                <p class="text-5xl font-extrabold text-green-600">N/A</p>
+                <p class="text-lg font-medium text-green-700 mt-2">Active Games</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Top 5 Most Purchased Top-Up Products -->
+            <div class="card p-6">
+                <h2 class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">
+                    Top 5 Most Purchased Top-Up Products (Successful)
+                </h2>
+                {% if top_products %}
+                    <ul class="space-y-3">
+                        {% for product in top_products %}
+                            <li class="flex justify-between items-center bg-gray-50 p-3 rounded-md">
+                                <span class="text-gray-800 font-medium">{{ product.product__name }} ({{ product.product__game__name }})</span>
+                                <span class="text-blue-600 font-bold text-lg">{{ product.purchase_count }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-gray-600">No top products data available yet.</p>
+                {% endif %}
+            </div>
+
+            <!-- Daily Revenue (last 7 days) -->
+            <div class="card p-6">
+                <h2 class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">
+                    Daily Revenue (Last 7 Days - Successful)
+                </h2>
+                {% if daily_revenue %}
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white rounded-md overflow-hidden shadow-sm">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="py-3 px-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider rounded-tl-md">Date</th>
+                                    <th class="py-3 px-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider rounded-tr-md">Revenue</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for day in daily_revenue %}
+                                    <tr class="border-b last:border-b-0 hover:bg-gray-50">
+                                        <td class="py-3 px-4 text-gray-800">{{ day.date|date:"M d, Y" }}</td>
+                                        <td class="py-3 px-4 text-gray-800 font-medium">${{ day.total_revenue|floatformat:2 }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-gray-600">No daily revenue data available for the last 7 days.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="mt-8 text-center text-gray-500 text-sm">
+            <p>Data last updated: {{ "now"|date:"F d, Y H:i" }} UTC</p>
+            <p>Login to Django Admin to manage data: <a href="/admin/" class="text-blue-600 hover:underline">/admin/</a></p>
+        </div>
+    </div>
+</body>
+</html>
+
