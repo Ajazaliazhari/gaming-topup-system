@@ -19,6 +19,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('topup.urls')), # Include app-specific URLs for API
-    path('dashboard/', include('topup.urls')), # Include app-specific URLs for dashboard
+    path('', include('topup.urls')),  # This includes /dashboard/
 ]

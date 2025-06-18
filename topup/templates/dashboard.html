@@ -1,0 +1,28 @@
+<!-- topup/templates/dashboard.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analytics Dashboard</title>
+</head>
+<body>
+    <h1>Analytics Dashboard</h1>
+
+    <h2>Top 5 Products</h2>
+    <ul>
+    {% for p in top_products %}
+        <li>{{ p.product__name }} (Game: {{ p.product__game__name }}) — {{ p.purchase_count }} purchases</li>
+    {% endfor %}
+    </ul>
+
+    <h2>Daily Revenue (Last 7 Days)</h2>
+    <ul>
+    {% for r in daily_revenue %}
+        <li>{{ r.date }}: ₹{{ r.total_revenue }}</li>
+    {% endfor %}
+    </ul>
+
+    <h2>Failed Payments (This Month)</h2>
+    <p>Total failed payments: {{ failed_payments_count }}</p>
+</body>
+</html>
+
