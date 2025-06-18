@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import TopUpAPIView, analytics_dashboard
+from .views import TopUpAPIView, DashboardView 
 
 urlpatterns = [
     path('topup/', TopUpAPIView.as_view(), name='topup-api'),
-    path('dashboard/', analytics_dashboard, name='dashboard'),  # must match view name
+    path('dashboard/', DashboardView.as_view(), name='dashboard'),
 ]
+
